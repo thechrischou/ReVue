@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.js' integrity='sha512-PyKhbAWS+VlTWXjk/36s5hJmUJBxcGY/1hlxg6woHD/EONP2fawZRKmvHdTGOWPKTqk3CPSUPh7+2boIBklbvw==' crossorigin='anonymous'></script>
+
+    <div id="app">
+        <button v-for="(content, index) of contents" @click="count = index">{{index}}</button>
+        <h1 v-for="(content, index) of contents" v-show="index === count"> {{ contents[count] }}</h1>
+    </div>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                count: 0,
+                //total: 4,
+                contents: ['aaa', 'bbb', 'ccc', 'ddd']
+            },
+            methods: {
+                clickHandler(){
+                    console.log('click')
+                }
+            }
+        })
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+
+    <id id="app">
+        <a :href="link.href" :target="link.target">{{ link.content }}</a>
+        <input :type="input.type" />
+        <div :class="classContent">classContent</div>
+        <div :class="classArray">classArray</div>
+        <div class="target" style="color: blue;" :style="[styleObj, styleObj1]">styleObj</div>
+      
+    </id>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.js' integrity='sha512-PyKhbAWS+VlTWXjk/36s5hJmUJBxcGY/1hlxg6woHD/EONP2fawZRKmvHdTGOWPKTqk3CPSUPh7+2boIBklbvw==' crossorigin='anonymous'></script>
+    <script>
+        ;(function(){
+            let vm = new Vue({
+                el: '#app',
+                data() {
+                    return {
+                        link: {
+                            href: 'https://www.google.com',
+                            target: '_blank',
+                            content: 'Google'
+                        },
+                        input: {
+                            type: 'checkbox'
+                        },
+                        classContent: {
+                            aaa: true,
+                            bbb: true,
+                            ccc: true,
+                            dd_ee: true,
+                            'ff-gg': true
+                        },
+                        classArray : ['aaa', 'bbb', '', 'dd_ee', 'ff-gg'],
+                        styleObj: {
+                            color: 'red',
+                            fontSize: '30px'
+                        },
+                        styleObj1: {
+                            color: 'blue',
+                        }
+                    }
+                }
+            })
+        })();
+    </script>
+</body>
+</html>
