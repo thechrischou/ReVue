@@ -72,14 +72,14 @@
                     console.log('consoleLog')
                 },
                 resizeHandler() {
-
+                    console.log('resize')
                 }
             },
             mounted() {
-                window.addEventListener('resize', resizeHandler)
+                window.addEventListener('resize', this.resizeHandler)
             },
             beforeDestroyed() {
-                window.removeEventListener('resize', resizeHandler)
+                window.removeEventListener('resize', this.resizeHandler)
             }
         })
     </script>
