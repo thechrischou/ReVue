@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Day 6</title>
 </head>
 <body>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.js' integrity='sha512-PyKhbAWS+VlTWXjk/36s5hJmUJBxcGY/1hlxg6woHD/EONP2fawZRKmvHdTGOWPKTqk3CPSUPh7+2boIBklbvw==' crossorigin='anonymous'></script>
@@ -22,7 +22,21 @@
 
         <button v-for="(content, index) of contents" @click="(event)=>clickHandler2(index, event)" >{{index}}</button>
 
+        <div @click.capture.stop.once="nestClick(1)" style="border:solid 1px #000;padding:10px;">
+            <a href="#" @click.capture.stop.once="nestClick(2)" style="border:solid 1px blue;padding:10px;">
+                <button @click.capture.stop.once="nestClick(3)"> AAA </button>
+            </a>
+        </div>
 
+        <div @scroll.passive="scrollHandler" style="height: 200px;border: 1px solid;overflow-y: scroll;">
+            <div style="height: 500px;"></div>
+        </div>
+
+        <input @keyup.17="consoleLog" type="text">
+
+        <button @click.exact="consoleLog">A</button>
+
+        <button @click.right.prevent="consoleLog">A</button>
 
     </div>
     <script>
@@ -47,7 +61,25 @@
                 clickHandler2(index, event){
                     this.count = index
                     console.log(event)
+                },
+                nestClick(num) {
+                    console.log(num)
+                },
+                scrollHandler() {
+                    console.log('scroll')
+                },
+                consoleLog(){
+                    console.log('consoleLog')
+                },
+                resizeHandler() {
+
                 }
+            },
+            mounted() {
+                window.addEventListener('resize', resizeHandler)
+            },
+            beforeDestroyed() {
+                window.removeEventListener('resize', resizeHandler)
             }
         })
     </script>
