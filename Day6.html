@@ -12,6 +12,18 @@
     <div id="app">
         <button v-for="(content, index) of contents" @click="count = index">{{index}}</button>
         <h1 v-for="(content, index) of contents" v-show="index === count"> {{ contents[count] }}</h1>
+
+        <button @click="clickHandler">clickHandler</button>
+        <button @click="clickHandlerWithEvent">clickHandlerWithEvent</button>
+
+        <button v-for="(content, index) of contents" @click="clickHandlerWithDataSet" :data-index="index">{{index}}</button>
+
+        <button v-for="(content, index) of contents" @click="clickHandler2(index, $event)" >{{index}}</button>
+
+        <button v-for="(content, index) of contents" @click="(event)=>clickHandler2(index, event)" >{{index}}</button>
+
+
+
     </div>
     <script>
         new Vue({
@@ -24,6 +36,17 @@
             methods: {
                 clickHandler(){
                     console.log('click')
+                },
+                clickHandlerWithEvent(event){
+                    console.log(event)
+                },
+                clickHandlerWithDataSet(event){
+                    console.log(event)
+                    this.count = (event.target.dataset.index) * 1
+                },
+                clickHandler2(index, event){
+                    this.count = index
+                    console.log(event)
                 }
             }
         })
