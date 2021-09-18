@@ -33,8 +33,8 @@
             {{ show ? "Now you see me":"Now you see me"}}
         </div> -->
         
-        <h1 v-for="value, index in userListArray"> {{user.name}} </h1>
-        <h1 v-for="value, key in userListObj"> {{user.name}} </h1>
+        <h1 v-for="value, index in userListArray"> {{value.name}} </h1>
+        <h1 v-for="value, key in userListObj"> {{value.name}} </h1>
 
 
     </div>

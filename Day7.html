@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 7</title>
+</head>
+<body>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.js' integrity='sha512-PyKhbAWS+VlTWXjk/36s5hJmUJBxcGY/1hlxg6woHD/EONP2fawZRKmvHdTGOWPKTqk3CPSUPh7+2boIBklbvw==' crossorigin='anonymous'></script>
+
+    <!-- // 分頁小練習：自己試寫 -->
+    <!-- <div id="app">
+        <div v-for="content in pageList">
+            {{content}}
+        </div>
+        <button @click="clickPrev"> prev </button>
+        <button @click="clickNext"> next </button>
+    </div> -->
+    <!-- <script>
+        // 分頁小練習：自己試寫
+        let vm = new Vue({
+            el: '#app',
+            data: {
+                list: ['aaa', 'bbb', 'ccc', 'ddd', 'eee', 'fff', 'ggg', 'hhh', 'iii'],
+                perPage: 4,
+                nowPage: 1
+            },
+            computed: {
+                pageList() {
+                    let renderList = []
+                    let start = (this.nowPage - 1) * this.perPage
+                    renderList = this.list.slice(start, start + this.perPage)
+                    return renderList
+                }
+            },
+            methods: {
+                clickPrev() {
+                    if (this.nowPage > 1)
+                        this.nowPage--
+                },
+                clickNext() {
+                    if (this.nowPage < this.list.length / this.perPage)
+                        this.nowPage++
+                }
+            }
+        })
+    </script> -->
+
+    <!-- // 分頁小練習：學習後 -->
+    <!-- <div id="app">
+        <button v-show="nowPage > 1" @click="change(-1)"> prev </button>
+        <div v-for="content in pageList">
+            {{content}}
+        </div>
+        <button v-show="nowPage < totalPage" @click="change(1)"> next </button>
+    </div>
+    <script>
+        // 分頁小練習：學習後
+        let vm = new Vue({
+            el: '#app',
+            data: {
+                list: ['aaa', 'bbb', 'ccc', 'ddd', 'eee', 'fff', 'ggg', 'hhh', 'iii'],
+                perPage: 4,
+                nowPage: 1
+            },
+            computed: {
+                pageList() {
+                    let start = (this.nowPage - 1) * this.perPage
+                    return this.list.slice(start, start + this.perPage)
+                },
+                totalPage() {
+                    return Math.ceil(this.list.length / this.perPage)
+                }
+            },
+            methods: {
+                change(direct) {
+                    let page = this.nowPage + direct
+                    this.nowPage = page < 1 ? 1 : (page > this.totalPage ? this.totalPage : page)
+
+                }
+            }
+        })
+    </script> -->
+
+    <div id="app">
+        <p>{{text}}</p>
+        <p><input type="text" v-model="text" /></p>
+        <p><textarea type="text" v-model="text"></textarea></p>
+        <!-- 注意預設的 三種字型都不同，需要一致性時要特別處理 css  -->
+
+        <p><input type="checkbox" v-model="edm" />訂閱</p>
+
+        <!-- 單選  -->
+        <div>
+            <p>
+                <input type="radio" value="A" v-model="check">
+                <label>A</label>
+            </p>
+            <p>
+                <input type="radio" value="B" v-model="check">
+                <label>B</label>
+            </p>
+            <p>
+                <input type="radio" value="C" v-model="check">
+                <label>C</label>
+            </p>
+        </div>
+
+        <!-- 多選，勾選的順序會依次存在陣列中 -->
+        <div>
+            <p>
+                <input type="checkbox" value="A" v-model="multiCheck">
+                <label>A</label>
+            </p>
+            <p>
+                <input type="checkbox" value="B" v-model="multiCheck">
+                <label>B</label>
+            </p>
+            <p>
+                <input type="checkbox" value="C" v-model="multiCheck">
+                <label>C</label>
+            </p>
+        </div>
+
+         <!-- 多選，勾選的順序會依次存在陣列中 -->
+         <div>
+            <p v-for="(value, index) in checkList">
+                <input type="checkbox" :value="index" v-model="multiCheck">
+                <label>{{ value }}</label>
+            </p>
+        </div>
+
+        <!-- 單選 -->
+        <div>
+            <p><input type="radio" value="0" v-model="gender">女</p>
+            <p><input type="radio" value="1" v-model="gender">男</p>
+        </div>
+
+        <!-- Select -->
+        <select v-model="selected">
+            <option disabled value="">Please select one</option> 
+            <!-- disabled 通常用來讓 user 提示選擇，且一選擇後就必定是 A 或 B 或 C，無法再切換回 please select one -->
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+        </select>
+        <span>Selected: {{ selected }}</span>
+        
+          
+    </div>
+    <script>
+        let vm = new Vue({
+            el: '#app',
+            data: {
+                text:'Chris',
+                edm: true,
+                check: 'A',
+                multiCheck: [],
+                checkList: ['A','B','C'],
+                gender: 1,
+                selected: 'ss'
+            }
+        })
+    </script>
+</body>
+</html>
