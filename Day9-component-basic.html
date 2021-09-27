@@ -21,7 +21,8 @@
             @delete="deleteHandler" 
             @edit="editHandler"
             @complete="completeHandler"
-            @cancel="cancelHandcer"
+            @cancel="cancelHandler"
+            @change="changeHandler"
             ></li>
             <!-- <li v-for="item in filterList" :key="item.timestamp">
                 <template v-if="editing === item">
@@ -61,7 +62,7 @@
             `
         })
 
-        // 外到內
+        //外到內
         Vue.component("InputComponent",{
             data: function(){
                 // 輸入法狀態
@@ -138,19 +139,28 @@
                 <template v-if="editing === item">
                     <input type="text" v-model="editingText" >
                     <button @click="completeHandler">完成</button>
-                    <button @click="cancelHandcer">取消</button>
+                    <button @click="cancelHandler">取消</button>
                 </template>
                 <template v-else>
-                    <input type="checkbox" v-model="item.status">
+                    <input type="checkbox" v-model="status">
                     {{ item.content }}
                     <button @click="editHandler(item)">修改</button>
                     <button @click="deleteHandler(item)">刪除</button>
                 </template>
             </li>`,
+            computed:{
+                status:{
+                    get() {
+                        return this.item.status
+                    },
+                    set(value) {
+                        this.$emit('change', this.item, value)
+                    }
+                }
+            },
             methods:{
                 deleteHandler(item) {
                     this.$emit('delete', item)
-
                 },
                 editHandler(item) {
                     this.$emit('edit', item)
@@ -158,10 +168,10 @@
                 },
                 completeHandler(){
                     this.$emit('complete', this.editingText)
-                    this.cancelHandcer()
+                    this.cancelHandler()
                 },
-                cancelHandcer(){
-                    this.editingText = ""
+                cancelHandler(){
+                    this.$emit('cancel')
                 }
             }
         })
@@ -181,7 +191,6 @@
                 show: "all"
             },
             methods: {
-                
                 filterHandler(value) {
                     this.show = value
                 },
@@ -213,10 +222,13 @@
                 },
                 completeHandler(value){
                     this.editing.content = value
-                    this.cancelHandcer()
+                    this.cancelHandler()
                 },
-                cancelHandcer(){
+                cancelHandler(){
                     this.editing = null
+                },
+                changeHandler(item, value) {
+                    item.status = value
                 }
                 
             },
