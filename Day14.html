@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+
+<body>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.js'
+        integrity='sha512-PyKhbAWS+VlTWXjk/36s5hJmUJBxcGY/1hlxg6woHD/EONP2fawZRKmvHdTGOWPKTqk3CPSUPh7+2boIBklbvw=='
+        crossorigin='anonymous'></script>
+    <div id="app">
+        <button @click="clickHandler">Log</button>
+        <hr />
+        <button @click="countHandler">Add</button>
+        {{count}}
+
+        <my-input v-for="num in count" :key="num" :count="count"></my-input>
+
+        <hr />
+        {{ ww }}
+    </div>
+
+    <script>
+        Vue.config.optionMergeStrategies.methods = function (toVal, fromVal) {
+            if (!toVal) toVal = {}
+            console.log(toVal, fromVal)
+            return Object.assign(toVal, fromVal)
+        }
+
+        const mixin1 = {
+            methods: {
+                log(payload) {
+                    console.log("1");
+                }
+            },
+            created() {
+                console.log('C1')
+            }
+        }
+        const mixin2 = {
+            methods: {
+                log(payload) {
+                    console.log("2");
+                }
+            },
+            created() {
+                console.log('C2')
+            }
+        }
+
+        // Custom Directives
+        Vue.directive('focus',  function (el, binding) {
+                // Focus the element
+                el.focus()
+                console.log(binding)
+            }
+        )
+        const MyInput = {
+            props: ['count'],
+            template: `<p><input v-focus:chris.test="count" /></p>`
+        }
+
+        new Vue({
+            el: '#app',
+            mixins: [mixin1,mixin2],
+            components:{MyInput},
+            data() {
+                return {
+                    count: 0,
+                    ww: 0
+                }
+            },
+            mounted() {
+                window.addEventListener('resize', this.resizeHandler)
+                this.resizeHandler()
+            },
+            beforeDestroy() {
+                window.removeEventListener('resize', this.resizeHandler)
+            },
+            methods: {
+                resizeHandler() {
+                    this.ww = window.innerWidth
+                },
+                clickHandler() {
+                    //
+                    this.log('clicked')
+                },
+                log() {
+                    console.log("my self");
+                },
+                countHandler() {
+                    this.count++
+                }
+            },
+            created() {
+                console.log('My created')
+            }
+            
+        })
+    </script>
+</body>
+
+</html>
