@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .border {
+            width:100vw;
+            border: #333 5px solid;
+            padding: 30px;
+        }
+        .member-border {
+            width:60%;
+            border: blue 5px solid;
+            padding: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.js'
+        integrity='sha512-PyKhbAWS+VlTWXjk/36s5hJmUJBxcGY/1hlxg6woHD/EONP2fawZRKmvHdTGOWPKTqk3CPSUPh7+2boIBklbvw=='
+        crossorigin='anonymous'></script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.4.3/vue-router.js' integrity='sha512-3y+1622sE9JcYGIob4bKvJI6qMHpzrsloehokHVZBk1Lx7lr7H5p6IOqIkRQzB0Ids5l11W3n+vK50xArypH5g==' crossorigin='anonymous'></script>
+    <div id="app">
+        <p>
+            <router-link to="/">Index</router-link>
+            <router-link to="/page1">Page 1</router-link>
+            <router-link to="/user">User</router-link>
+
+            <hr>
+            <button @click="clickHandler">click</button>
+            <hr>
+            <button @click="$router.go(-1)">Back</button>
+            <button @click="$router.go(1)">Forward</button>
+
+        </p>
+        <router-view></router-view>
+    </div>
+
+    <script>
+        const Index = {
+            template: `<div class="border">Index</div>`
+        }
+        const Page1 = {
+            template: `<div class="border">Page 1</div>`
+        }
+        const User = {
+            template: `
+                <div class="border">User | 
+                    <router-link to="profile">Profile</router-link>
+                    <router-link to="posts">Posts</router-link>
+                    <router-view></router-view>
+                </div>`
+        }
+        const Profile = {
+            template: `<div class="member-border">Profile</div>`
+        }
+        const Posts = {
+            template: `<div class="member-border">Posts</div>`
+        }
+        const Error = {
+            template: `<div class="border"> 404 Not Found </div>`
+        }
+
+        const router = new VueRouter({
+            routes:[
+                {
+                    path: '/',
+                    component: Index
+                },
+                {
+                    path: '/page1', //網址
+                    component: Page1, //對應的元件
+                },
+                {
+                    path: '/user', //網址
+                    component: User, //對應的元件
+                    children: [
+                        {
+                            path: 'profile',
+                            component: Profile
+                        },
+                        {
+                            path: '/posts',
+                            component: Posts
+                        }
+                    ]
+                },
+                {
+                    path: '/404',
+                    component: Error
+                },
+            ]
+        })
+
+        new Vue({
+            el: '#app',
+            router, // 註冊router
+            data() {
+                return {
+                   show: 1
+                }
+            },
+            methods: {
+                clickHandler() {
+                    this.$router.push('/user')
+                    console.log(router)
+                    //this.$router.push('/user', this.completeHandlder)
+                },
+                completeHandlder(){
+                    console.log('complete')
+                    // 看是否 component 有需要 reset 或是調整時
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
